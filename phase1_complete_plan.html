@@ -1,0 +1,969 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.root{padding:1rem 0 3rem;font-family:var(--font-sans)}
+.top-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.5rem}
+.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;text-align:center}
+.stat-n{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.stat-l{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.nav{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:1.5rem}
+.nb{font-size:12px;padding:5px 13px;border:0.5px solid var(--color-border-secondary);border-radius:16px;cursor:pointer;background:transparent;color:var(--color-text-secondary);transition:all .15s}
+.nb.on{background:var(--color-text-primary);color:var(--color-background-primary);border-color:transparent}
+.sec{display:none}.sec.on{display:block}
+.day-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:12px;overflow:hidden}
+.day-hd{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--color-background-secondary);cursor:pointer;user-select:none}
+.day-num{font-size:12px;font-weight:500;padding:3px 10px;border-radius:10px}
+.day-title{font-size:14px;font-weight:500;flex:1}
+.day-hrs{font-size:12px;color:var(--color-text-secondary)}
+.chev{font-size:13px;color:var(--color-text-secondary);transition:transform .2s}
+.day-card.open .chev{transform:rotate(180deg)}
+.day-body{display:none;padding:14px 16px}
+.day-card.open .day-body{display:block}
+.block-row{display:grid;grid-template-columns:90px 1fr;gap:8px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.block-row:last-child{border-bottom:none}
+.block-time{font-size:12px;color:var(--color-text-secondary);font-weight:500;padding-top:2px}
+.block-content{font-size:13px;color:var(--color-text-primary);line-height:1.6}
+.tag{display:inline-block;font-size:11px;font-weight:500;padding:2px 8px;border-radius:8px;margin-right:5px;margin-bottom:2px;vertical-align:middle}
+.t-learn{background:var(--color-background-info);color:var(--color-text-info)}
+.t-code{background:var(--color-background-success);color:var(--color-text-success)}
+.t-rev{background:var(--color-background-warning);color:var(--color-text-warning)}
+.t-mock{background:var(--color-background-danger);color:var(--color-text-danger)}
+.qlist{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.qc{font-size:11px;padding:3px 9px;border:0.5px solid var(--color-border-tertiary);border-radius:8px;color:var(--color-text-secondary);cursor:pointer;transition:background .12s}
+.qc:hover{background:var(--color-background-secondary)}
+.concept-block{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px;margin-bottom:10px}
+.cb-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.cb-icon{width:28px;height:28px;border-radius:6px;background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.cb-name{font-size:14px;font-weight:500;flex:1}
+.cb-badge{font-size:11px;padding:2px 8px;border-radius:8px}
+.cb-body{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.cb-qs{margin-top:8px}
+.cb-qs-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.week-band{display:flex;align-items:center;gap:10px;margin:1rem 0 .6rem;padding:8px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md)}
+.wb-label{font-size:13px;font-weight:500;flex:1}
+.wb-tag{font-size:11px;padding:2px 9px;border-radius:8px}
+.tip-box{border-left:2px solid var(--color-border-info);padding:10px 14px;margin:10px 0;border-radius:0}
+.tip-box p{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.green{background:var(--color-background-success);color:var(--color-text-success)}
+.blue{background:var(--color-background-info);color:var(--color-text-info)}
+.amber{background:var(--color-background-warning);color:var(--color-text-warning)}
+.red{background:var(--color-background-danger);color:var(--color-text-danger)}
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.prog-label{font-size:12px;color:var(--color-text-secondary);width:130px;flex-shrink:0}
+.prog-bar{flex:1;height:6px;background:var(--color-border-tertiary);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px}
+.prog-count{font-size:12px;color:var(--color-text-secondary);width:40px;text-align:right}
+</style>
+
+<div class="root">
+<h2 style="font-size:0;position:absolute;left:-9999px">Phase 1 complete prep plan</h2>
+
+<div style="margin-bottom:1.2rem">
+  <div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Phase 1 — Complete Prep Plan</div>
+  <div style="font-size:13px;color:var(--color-text-secondary);margin-top:3px">Arrays · Strings · Binary Search · HashMap · Sorting · Two Pointers · Sliding Window</div>
+</div>
+
+<div class="top-stats">
+  <div class="stat"><div class="stat-n">28</div><div class="stat-l">days total</div></div>
+  <div class="stat"><div class="stat-n">4–6h</div><div class="stat-l">per weekday</div></div>
+  <div class="stat"><div class="stat-n">6–8h</div><div class="stat-l">per weekend</div></div>
+  <div class="stat"><div class="stat-n">180+</div><div class="stat-l">problems solved</div></div>
+</div>
+
+<div class="nav">
+  <button class="nb on" onclick="show('overview',this)">Overview</button>
+  <button class="nb" onclick="show('week1',this)">Week 1 — Arrays</button>
+  <button class="nb" onclick="show('week2',this)">Week 2 — Strings + Hashing</button>
+  <button class="nb" onclick="show('week3',this)">Week 3 — Binary Search + 2P + SW</button>
+  <button class="nb" onclick="show('week4',this)">Week 4 — Sorting + Recursion + Mock</button>
+  <button class="nb" onclick="show('concepts',this)">All Concepts</button>
+  <button class="nb" onclick="show('tracker',this)">Topic Tracker</button>
+</div>
+
+<!-- OVERVIEW -->
+<div class="sec on" id="overview">
+  <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.7;margin-bottom:1rem">
+    You are doing 4–6 hrs weekdays and 6–8 hrs weekends. That is ~170 hours over 28 days — more than most people spend in 3 months. With this intensity, you will finish Phase 1 completely, go deep into every pattern, and be ready to start Phase 2 (Trees, Linked Lists) strong. No DP, no Graphs in this phase.
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-bottom:1.2rem">
+    <div style="border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px">
+      <div style="font-size:13px;font-weight:500;margin-bottom:10px">Phase 1 topic breakdown</div>
+      <div class="prog-row"><span class="prog-label">Arrays (core)</span><div class="prog-bar"><div class="prog-fill" style="width:100%;background:#22c55e"></div></div><span class="prog-count">Days 1–7</span></div>
+      <div class="prog-row"><span class="prog-label">Strings</span><div class="prog-bar"><div class="prog-fill" style="width:90%;background:#3b82f6"></div></div><span class="prog-count">Days 8–11</span></div>
+      <div class="prog-row"><span class="prog-label">HashMap / HashSet</span><div class="prog-bar"><div class="prog-fill" style="width:80%;background:#3b82f6"></div></div><span class="prog-count">Days 12–14</span></div>
+      <div class="prog-row"><span class="prog-label">Binary Search</span><div class="prog-bar"><div class="prog-fill" style="width:75%;background:#f59e0b"></div></div><span class="prog-count">Days 15–18</span></div>
+      <div class="prog-row"><span class="prog-label">Two Pointers</span><div class="prog-bar"><div class="prog-fill" style="width:65%;background:#f59e0b"></div></div><span class="prog-count">Days 19–21</span></div>
+      <div class="prog-row"><span class="prog-label">Sliding Window</span><div class="prog-bar"><div class="prog-fill" style="width:60%;background:#f59e0b"></div></div><span class="prog-count">Days 22–24</span></div>
+      <div class="prog-row"><span class="prog-label">Sorting deep</span><div class="prog-bar"><div class="prog-fill" style="width:50%;background:#ef4444"></div></div><span class="prog-count">Days 25–26</span></div>
+      <div class="prog-row"><span class="prog-label">Recursion intro</span><div class="prog-bar"><div class="prog-fill" style="width:45%;background:#ef4444"></div></div><span class="prog-count">Day 27</span></div>
+      <div class="prog-row"><span class="prog-label">Full mock sprint</span><div class="prog-bar"><div class="prog-fill" style="width:40%;background:#ef4444"></div></div><span class="prog-count">Day 28</span></div>
+    </div>
+    <div style="border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px">
+      <div style="font-size:13px;font-weight:500;margin-bottom:10px">Daily structure (every day)</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.8">
+        <div style="display:flex;gap:8px;margin-bottom:4px"><span style="width:80px;flex-shrink:0;font-weight:500;color:var(--color-text-primary)">Slot 1 (1h)</span>Concept study: read, watch, take notes on today's topic</div>
+        <div style="display:flex;gap:8px;margin-bottom:4px"><span style="width:80px;flex-shrink:0;font-weight:500;color:var(--color-text-primary)">Slot 2 (1.5h)</span>Solve 3–4 new problems on today's topic (Easy → Medium)</div>
+        <div style="display:flex;gap:8px;margin-bottom:4px"><span style="width:80px;flex-shrink:0;font-weight:500;color:var(--color-text-primary)">Break (30m)</span>Rest fully. No screens if possible</div>
+        <div style="display:flex;gap:8px;margin-bottom:4px"><span style="width:80px;flex-shrink:0;font-weight:500;color:var(--color-text-primary)">Slot 3 (1h)</span>2–3 spaced repetition problems from prior days</div>
+        <div style="display:flex;gap:8px;margin-bottom:4px"><span style="width:80px;flex-shrink:0;font-weight:500;color:var(--color-text-primary)">Slot 4 (30m)</span>Write pattern summary in notebook. No shortcuts here</div>
+        <div style="display:flex;gap:8px"><span style="width:80px;flex-shrink:0;font-weight:500;color:var(--color-text-primary)">Weekends +2h</span>Extra contest or timed mock + revisit hardest problems</div>
+      </div>
+    </div>
+  </div>
+  <div style="border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;margin-bottom:1rem">
+    <div style="font-size:13px;font-weight:500;margin-bottom:10px">The 5 patterns you MUST own by Day 28</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px">
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px">
+        <div style="font-size:12px;font-weight:500;margin-bottom:3px">Prefix Sum</div>
+        <div style="font-size:11px;color:var(--color-text-secondary)">Turns O(n) repeated range queries into O(1)</div>
+      </div>
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px">
+        <div style="font-size:12px;font-weight:500;margin-bottom:3px">Two Pointers</div>
+        <div style="font-size:11px;color:var(--color-text-secondary)">Sorted array problems, avoids nested loops</div>
+      </div>
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px">
+        <div style="font-size:12px;font-weight:500;margin-bottom:3px">Sliding Window</div>
+        <div style="font-size:11px;color:var(--color-text-secondary)">Fixed or variable window on arrays/strings</div>
+      </div>
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px">
+        <div style="font-size:12px;font-weight:500;margin-bottom:3px">HashMap Lookup</div>
+        <div style="font-size:11px;color:var(--color-text-secondary)">Trade space for O(1) lookup in almost any problem</div>
+      </div>
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px">
+        <div style="font-size:12px;font-weight:500;margin-bottom:3px">Binary Search Template</div>
+        <div style="font-size:11px;color:var(--color-text-secondary)">lo/hi/mid on arrays AND on search-space answers</div>
+      </div>
+    </div>
+  </div>
+  <button style="font-size:13px;padding:8px 16px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;background:transparent;color:var(--color-text-primary)" onclick="sendPrompt('Start teaching me Phase 1 Day 1 — Arrays fundamentals in Java with examples')">Start Day 1 now ↗</button>
+</div>
+
+<!-- WEEK 1 -->
+<div class="sec" id="week1">
+  <div class="week-band"><span class="wb-label">Week 1 — Arrays (Days 1–7)</span><span class="wb-tag blue">Core foundation</span></div>
+  <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem">Arrays are the base of everything. Every pattern you learn later (sliding window, two pointers, binary search) lives on arrays. Do not rush. Understand memory layout, index math, and traversal cold before moving to patterns.</div>
+
+  <div class="day-card open">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num green">Day 1</span>
+      <span class="day-title">Array fundamentals + Big-O + Java setup</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">Concepts:</strong> How arrays work in memory (contiguous), 0-indexed, int[] vs ArrayList in Java, System.arraycopy, Arrays.sort, Arrays.fill, Arrays.copyOf. Time complexity: O(1) access, O(n) traversal, O(n) insert/delete. Big-O: constant, linear, quadratic, logarithmic. Space complexity. Best/Worst/Average cases.<div class="tip-box"><p>Open IntelliJ or VS Code. Create a fresh Java project. Write every example by hand — no copy-paste today ever.</p></div></div></div>
+      <div class="block-row"><div class="block-time">Slot 2 · 1.5h<br><span class="tag t-code">code</span></div><div class="block-content"><strong style="font-size:12px">Problems to solve:</strong>
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Explain and solve: Find the largest element in an array Java')">Find max element</span>
+          <span class="qc" onclick="sendPrompt('Reverse an array in Java in-place explanation')">Reverse array</span>
+          <span class="qc" onclick="sendPrompt('Check if array is sorted Java')">Check if sorted</span>
+          <span class="qc" onclick="sendPrompt('Move all zeros to end of array Java')">Move zeros</span>
+          <span class="qc" onclick="sendPrompt('Find second largest element in array Java')">Second largest</span>
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:var(--color-text-secondary)">Attempt each problem yourself first for 10 min before looking at solution.</div>
+      </div></div>
+      <div class="block-row"><div class="block-time">Slot 3 · 1h<br><span class="tag t-code">code</span></div><div class="block-content"><strong style="font-size:12px">Java array methods deep dive:</strong> Write code using Arrays.sort(), Arrays.binarySearch(), Collections.sort() on ArrayList, for-each vs index loop, 2D array declaration and traversal. Understand when to use int[] vs Integer[] vs ArrayList&lt;Integer&gt;.
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Difference between int array and ArrayList Integer in Java when to use which')">int[] vs ArrayList</span>
+          <span class="qc" onclick="sendPrompt('2D array declaration traversal Java examples')">2D array basics</span>
+        </div>
+      </div></div>
+      <div class="block-row"><div class="block-time">Slot 4 · 30m<br><span class="tag t-rev">review</span></div><div class="block-content">Write in notebook: Big-O cheat sheet with 1 example each. Array method list with time complexity. One pattern you noticed today.</div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num green">Day 2</span>
+      <span class="day-title">Prefix Sum + Difference Array</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">Concepts:</strong> Prefix sum array: pre[i] = pre[i-1] + arr[i]. Range sum query in O(1): sum(l,r) = pre[r] - pre[l-1]. 2D prefix sum for matrix range queries. Difference array: for range update in O(1), then reconstruct in O(n). Why this pattern matters: turns repeated sum queries from O(n) to O(1).
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Prefix sum array Java full explanation with code and examples step by step')">Prefix sum tutorial ↗</span>
+        </div>
+      </div></div>
+      <div class="block-row"><div class="block-time">Slot 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content"><strong style="font-size:12px">Problems:</strong>
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Range Sum Query immutable LeetCode 303 Java prefix sum solution')">Range Sum Query (LC 303)</span>
+          <span class="qc" onclick="sendPrompt('Subarray Sum Equals K LeetCode 560 Java prefix sum HashMap')">Subarray Sum = K (LC 560)</span>
+          <span class="qc" onclick="sendPrompt('Find pivot index LeetCode 724 Java prefix sum')">Pivot Index (LC 724)</span>
+          <span class="qc" onclick="sendPrompt('Count subarrays with equal 0s and 1s Java prefix sum HashMap')">Equal 0s and 1s</span>
+          <span class="qc" onclick="sendPrompt('Product of Array Except Self LeetCode 238 Java no division')">Product except self (LC 238)</span>
+        </div>
+      </div></div>
+      <div class="block-row"><div class="block-time">Slot 4 · 30m<br><span class="tag t-rev">review</span></div><div class="block-content">Draw prefix sum diagram in notebook. Write the template code from memory. Note: "when I see range sum query → prefix sum".</div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num green">Day 3</span>
+      <span class="day-title">Kadane's Algorithm + Subarrays</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">Concepts:</strong> Kadane's algorithm — at each index decide: extend current subarray or start fresh. Understand the invariant: maxEnding = max(arr[i], maxEnding + arr[i]). Variations: return sum vs return indices vs handle all-negative. Circular subarray max. This is one of the most asked questions in campus drives.</div></div>
+      <div class="block-row"><div class="block-time">Slot 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Maximum Subarray Kadane algorithm Java LeetCode 53 full explanation')">Max Subarray (LC 53)</span>
+          <span class="qc" onclick="sendPrompt('Maximum Sum Circular Subarray LeetCode 918 Java Kadane')">Circular Max Sum (LC 918)</span>
+          <span class="qc" onclick="sendPrompt('Maximum Product Subarray LeetCode 152 Java explanation')">Max Product Subarray (LC 152)</span>
+          <span class="qc" onclick="sendPrompt('Count subarrays with sum greater than K Java')">Count subarrays sum &gt; K</span>
+          <span class="qc" onclick="sendPrompt('Minimum subarray sum Java variation of Kadane')">Min subarray sum</span>
+        </div>
+      </div></div>
+      <div class="block-row"><div class="block-time">Slot 4 · 30m<br><span class="tag t-rev">review</span></div><div class="block-content">Write Kadane's 4-line template from memory. Draw the walkthrough on example [-2,1,-3,4,-1,2,1,-5,4].</div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num green">Day 4</span>
+      <span class="day-title">Sorting fundamentals + Dutch National Flag</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">Concepts:</strong> Bubble sort, selection sort, insertion sort — write each from scratch, know their O(n²) time. Understand stable vs unstable sort. Java's Arrays.sort() uses dual-pivot quicksort (O(n log n)). Collections.sort() uses TimSort. Custom Comparator: Arrays.sort(arr, (a,b) -> a-b). Dutch National Flag — 3-way partition with lo, mid, hi pointers. This exact pattern appears in "Sort Colors" which is asked in 80% of drives.</div></div>
+      <div class="block-row"><div class="block-time">Slot 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Sort Colors LeetCode 75 Dutch National Flag Java explanation')">Sort Colors (LC 75)</span>
+          <span class="qc" onclick="sendPrompt('Merge Sorted Arrays LeetCode 88 Java two pointer in-place')">Merge Sorted Array (LC 88)</span>
+          <span class="qc" onclick="sendPrompt('Largest Number LeetCode 179 Java custom comparator')">Largest Number (LC 179)</span>
+          <span class="qc" onclick="sendPrompt('Relative Sort Array LeetCode 1122 Java custom sort')">Relative Sort Array (LC 1122)</span>
+          <span class="qc" onclick="sendPrompt('Write bubble sort insertion sort selection sort Java from scratch')">Write all 3 sorts from scratch</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num green">Day 5</span>
+      <span class="day-title">Array manipulation + Index tricks</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">Concepts:</strong> Using the array itself as a hashmap (index tricks) — mark visited by negating. Cyclic sort for arrays with range [1,n]. Missing number using XOR or sum formula. Rotate array using reversal algorithm (3 reverses = one rotation, O(1) space). Next permutation algorithm.</div></div>
+      <div class="block-row"><div class="block-time">Slot 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Find Missing Number LeetCode 268 Java XOR and sum approaches')">Missing Number (LC 268)</span>
+          <span class="qc" onclick="sendPrompt('Find All Numbers Disappeared in Array LeetCode 448 Java in-place')">Disappeared Numbers (LC 448)</span>
+          <span class="qc" onclick="sendPrompt('Rotate Array LeetCode 189 Java reversal algorithm O(1) space')">Rotate Array (LC 189)</span>
+          <span class="qc" onclick="sendPrompt('Next Permutation LeetCode 31 Java full explanation step by step')">Next Permutation (LC 31)</span>
+          <span class="qc" onclick="sendPrompt('Find Duplicate Number LeetCode 287 Java no extra space')">Find Duplicate (LC 287)</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num green">Day 6 — Saturday</span>
+      <span class="day-title">Array deep practice day (6–7 hrs)</span>
+      <span class="day-hrs">6–7 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Morning · 3h<br><span class="tag t-code">code</span></div><div class="block-content"><strong style="font-size:12px">Timed sprint — 10 problems, 15 min each max:</strong>
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Two Sum LeetCode 1 Java solution')">Two Sum (LC 1)</span>
+          <span class="qc" onclick="sendPrompt('Best Time to Buy and Sell Stock LeetCode 121 Java')">Buy/Sell Stock (LC 121)</span>
+          <span class="qc" onclick="sendPrompt('Contains Duplicate LeetCode 217 Java HashSet')">Contains Duplicate (LC 217)</span>
+          <span class="qc" onclick="sendPrompt('3Sum LeetCode 15 Java two pointer sort')">3Sum (LC 15)</span>
+          <span class="qc" onclick="sendPrompt('Container With Most Water LeetCode 11 Java')">Container Water (LC 11)</span>
+          <span class="qc" onclick="sendPrompt('Trapping Rain Water LeetCode 42 Java two pointer')">Trapping Rain (LC 42)</span>
+          <span class="qc" onclick="sendPrompt('Jump Game LeetCode 55 Java greedy')">Jump Game (LC 55)</span>
+          <span class="qc" onclick="sendPrompt('Spiral Matrix LeetCode 54 Java')">Spiral Matrix (LC 54)</span>
+          <span class="qc" onclick="sendPrompt('Set Matrix Zeroes LeetCode 73 Java')">Set Matrix Zeroes (LC 73)</span>
+          <span class="qc" onclick="sendPrompt('Pascal Triangle LeetCode 118 Java')">Pascal Triangle (LC 118)</span>
+        </div>
+      </div></div>
+      <div class="block-row"><div class="block-time">Afternoon · 2h<br><span class="tag t-rev">review</span></div><div class="block-content">Go through every problem you couldn't solve or took &gt;20 min. Study the optimal solution. Understand WHY it works, not just HOW.</div></div>
+      <div class="block-row"><div class="block-time">Evening · 1.5h<br><span class="tag t-mock">mock</span></div><div class="block-content">LeetCode Weekly Contest or solve 3 medium array problems back to back timed (30 min each). Write your approach before coding.</div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num green">Day 7 — Sunday</span>
+      <span class="day-title">Arrays revision + Cheat sheet build (5–6 hrs)</span>
+      <span class="day-hrs">5–6 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Morning · 2h<br><span class="tag t-rev">review</span></div><div class="block-content">Redo Day 1–5's hardest problems WITHOUT looking at solution. If you're stuck for 15 min, check hint only. Build the pattern recognition muscle.</div></div>
+      <div class="block-row"><div class="block-time">Afternoon · 2h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Majority Element LeetCode 169 Java Boyer Moore voting')">Majority Element (LC 169)</span>
+          <span class="qc" onclick="sendPrompt('Find Minimum in Rotated Sorted Array LeetCode 153 Java')">Min in Rotated (LC 153)</span>
+          <span class="qc" onclick="sendPrompt('Maximum consecutive ones LeetCode 485 Java')">Max Consecutive Ones</span>
+          <span class="qc" onclick="sendPrompt('Kth Largest Element in array LeetCode 215 Java quickselect')">Kth Largest (LC 215)</span>
+        </div>
+      </div></div>
+      <div class="block-row"><div class="block-time">Evening · 1.5h<br><span class="tag t-rev">review</span></div><div class="block-content">Build your Arrays cheat sheet: every pattern with 1 template code snippet + 3 example problems. This notebook is your placement weapon.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 2 -->
+<div class="sec" id="week2">
+  <div class="week-band"><span class="wb-label">Week 2 — Strings + Hashing (Days 8–14)</span><span class="wb-tag blue">Pattern building</span></div>
+
+  <div class="day-card open">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num blue">Day 8</span>
+      <span class="day-title">Java String internals + core methods</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">Concepts to master:</strong> String immutability in Java — why String s = "abc"; s = s+"d" creates new object. String pool. StringBuilder vs String for concatenation (O(n²) vs O(n)). Essential methods: charAt(), indexOf(), substring(), split(), trim(), toLowerCase(), toCharArray(), String.valueOf(), String.format(). char arithmetic: 'a'-'a'=0, 'z'-'a'=25. int to char: (char)('a'+i). ASCII values. String comparison: equals() vs ==.</div></div>
+      <div class="block-row"><div class="block-time">Slot 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Reverse String LeetCode 344 Java in-place two pointer')">Reverse String (LC 344)</span>
+          <span class="qc" onclick="sendPrompt('Valid Palindrome LeetCode 125 Java two pointer')">Valid Palindrome (LC 125)</span>
+          <span class="qc" onclick="sendPrompt('First Unique Character in String LeetCode 387 Java')">First Unique Char (LC 387)</span>
+          <span class="qc" onclick="sendPrompt('Reverse Words in String LeetCode 151 Java StringBuilder')">Reverse Words (LC 151)</span>
+          <span class="qc" onclick="sendPrompt('Roman to Integer LeetCode 13 Java HashMap')">Roman to Integer (LC 13)</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num blue">Day 9</span>
+      <span class="day-title">String patterns — Anagram + Character frequency</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">Concepts:</strong> int[26] frequency array for lowercase letters — faster than HashMap for character counting. Sorting to check anagram. Two strings are anagrams iff sorted versions are equal OR frequency arrays are equal. Palindrome permutation check: at most 1 odd-count character. String hashing using Arrays.toString(freq) as HashMap key for grouping.</div></div>
+      <div class="block-row"><div class="block-time">Slot 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Valid Anagram LeetCode 242 Java two approaches freq array and sort')">Valid Anagram (LC 242)</span>
+          <span class="qc" onclick="sendPrompt('Group Anagrams LeetCode 49 Java HashMap sorted key')">Group Anagrams (LC 49)</span>
+          <span class="qc" onclick="sendPrompt('Palindrome Permutation LeetCode 266 Java frequency')">Palindrome Permutation (LC 266)</span>
+          <span class="qc" onclick="sendPrompt('Find all anagrams in a string LeetCode 438 Java sliding window')">All Anagrams (LC 438)</span>
+          <span class="qc" onclick="sendPrompt('Ransom Note LeetCode 383 Java frequency array')">Ransom Note (LC 383)</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num blue">Day 10</span>
+      <span class="day-title">HashMap internals + HashSet + frequency patterns</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">Concepts:</strong> HashMap internals: hash function, buckets, collision resolution, load factor 0.75. O(1) average get/put, O(n) worst (all collisions). Java APIs: getOrDefault(), putIfAbsent(), computeIfAbsent(), entrySet() iteration, keySet(), values(). LinkedHashMap for insertion-order. TreeMap for sorted keys (O(log n)). HashSet for O(1) contains check. When to use which: HashMap for key→value, HashSet for "seen?" check, TreeMap for range/sorted queries.</div></div>
+      <div class="block-row"><div class="block-time">Slot 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Two Sum LeetCode 1 Java HashMap one pass explanation')">Two Sum HashMap (LC 1)</span>
+          <span class="qc" onclick="sendPrompt('Top K Frequent Elements LeetCode 347 Java HashMap and bucket sort')">Top K Frequent (LC 347)</span>
+          <span class="qc" onclick="sendPrompt('Longest Consecutive Sequence LeetCode 128 Java HashSet O(n)')">Consecutive Seq (LC 128)</span>
+          <span class="qc" onclick="sendPrompt('Subarray Sum Equals K LeetCode 560 Java prefix sum HashMap')">Subarray Sum K (LC 560)</span>
+          <span class="qc" onclick="sendPrompt('Contains Duplicate II LeetCode 219 Java HashMap index distance')">Contains Dup II (LC 219)</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num blue">Day 11</span>
+      <span class="day-title">String + HashMap combined problems</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">All slots · 4h<br><span class="tag t-code">code</span></div><div class="block-content"><strong style="font-size:12px">These require both string and hashmap thinking together:</strong>
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Longest Substring Without Repeating Characters LeetCode 3 Java sliding window HashMap')">Longest No-Repeat Sub (LC 3)</span>
+          <span class="qc" onclick="sendPrompt('Minimum Window Substring LeetCode 76 Java sliding window two pointer')">Min Window Sub (LC 76)</span>
+          <span class="qc" onclick="sendPrompt('Word Pattern LeetCode 290 Java HashMap bijection')">Word Pattern (LC 290)</span>
+          <span class="qc" onclick="sendPrompt('Isomorphic Strings LeetCode 205 Java two HashMap')">Isomorphic Strings (LC 205)</span>
+          <span class="qc" onclick="sendPrompt('Encode and Decode Strings LeetCode 271 Java delimiter')">Encode Decode (LC 271)</span>
+          <span class="qc" onclick="sendPrompt('Longest Palindromic Substring LeetCode 5 Java expand around center')">Longest Palindromic Sub (LC 5)</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num blue">Day 12</span>
+      <span class="day-title">String algorithms — KMP + Rabin-Karp idea</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">Concepts:</strong> Naive string matching O(n*m) — understand why it's slow. KMP algorithm: LPS (longest proper prefix suffix) array. KMP matching phase. You don't need to memorize KMP but understand the idea. Rabin-Karp: rolling hash for substring search. Java's indexOf() is optimized but knowing patterns helps in harder problems. String hashing concept.</div></div>
+      <div class="block-row"><div class="block-time">Slot 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Implement strStr LeetCode 28 Java KMP and brute force both')">Implement strStr (LC 28)</span>
+          <span class="qc" onclick="sendPrompt('Repeated Substring Pattern LeetCode 459 Java KMP approach')">Repeated Sub Pattern (LC 459)</span>
+          <span class="qc" onclick="sendPrompt('Longest Common Prefix LeetCode 14 Java vertical scan')">Common Prefix (LC 14)</span>
+          <span class="qc" onclick="sendPrompt('Count and Say LeetCode 38 Java simulation')">Count and Say (LC 38)</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num blue">Day 13 — Saturday</span>
+      <span class="day-title">String + Hash marathon (6–7 hrs)</span>
+      <span class="day-hrs">6–7 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Morning · 3h<br><span class="tag t-code">code</span></div><div class="block-content"><strong style="font-size:12px">12 problems sprint — time yourself:</strong>
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Decode Ways LeetCode 91 Java DP string')">Decode Ways (LC 91)</span>
+          <span class="qc" onclick="sendPrompt('Letter Combinations Phone Number LeetCode 17 Java backtracking')">Phone Number Combo (LC 17)</span>
+          <span class="qc" onclick="sendPrompt('Zigzag Conversion LeetCode 6 Java')">Zigzag Conversion (LC 6)</span>
+          <span class="qc" onclick="sendPrompt('String to Integer atoi LeetCode 8 Java edge cases')">atoi (LC 8)</span>
+          <span class="qc" onclick="sendPrompt('Multiply Strings LeetCode 43 Java big number')">Multiply Strings (LC 43)</span>
+          <span class="qc" onclick="sendPrompt('Text Justification LeetCode 68 Java hard simulation')">Text Justification (LC 68)</span>
+        </div>
+      </div></div>
+      <div class="block-row"><div class="block-time">Afternoon · 2h<br><span class="tag t-mock">mock</span></div><div class="block-content">Simulate a real interview: pick 2 unseen problems, set a 45-min timer, explain your thought process aloud as if talking to an interviewer. Then review.</div></div>
+      <div class="block-row"><div class="block-time">Evening · 1.5h<br><span class="tag t-rev">review</span></div><div class="block-content">Update cheat sheet for Strings. Key patterns: when to use int[26] vs HashMap, when to use StringBuilder, two-pointer on strings.</div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num blue">Day 14 — Sunday</span>
+      <span class="day-title">Week 2 revision + GFG company questions (5–6 hrs)</span>
+      <span class="day-hrs">5–6 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">All day<br><span class="tag t-rev">review</span></div><div class="block-content">Morning: redo 5 hardest problems from week 2 without hints. Afternoon: 8 GFG company-specific questions (search "TCS NQT strings" and "Infosys strings" on GFG). Evening: write a 1-page summary of every pattern learned in weeks 1+2.
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('TCS NQT Java string questions commonly asked with solutions')">TCS string questions ↗</span>
+          <span class="qc" onclick="sendPrompt('Infosys Java string and array interview questions with solutions')">Infosys questions ↗</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 3 -->
+<div class="sec" id="week3">
+  <div class="week-band"><span class="wb-label">Week 3 — Binary Search + Two Pointers + Sliding Window (Days 15–21)</span><span class="wb-tag amber">Core patterns</span></div>
+
+  <div class="day-card open">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num amber">Day 15</span>
+      <span class="day-title">Binary Search — the universal template</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1.5h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">The ONE template to memorize:</strong>
+        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px;margin-top:6px;font-size:12px;font-family:var(--font-mono)">
+          int lo = 0, hi = n-1;<br>
+          while (lo &lt;= hi) {'{'}  <br>
+          &nbsp;&nbsp;int mid = lo + (hi-lo)/2;<br>
+          &nbsp;&nbsp;if (condition) return mid;<br>
+          &nbsp;&nbsp;else if (arr[mid] &lt; target) lo = mid+1;<br>
+          &nbsp;&nbsp;else hi = mid-1;<br>
+          {'}'}
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:var(--color-text-secondary)">Why lo + (hi-lo)/2 and not (lo+hi)/2? Overflow prevention. Memorize this. lo &lt;= hi vs lo &lt; hi — when to use each. Lower bound vs upper bound variants. Off-by-one is the #1 binary search bug.</div>
+        <div class="qlist" style="margin-top:8px">
+          <span class="qc" onclick="sendPrompt('Binary search template all variants Java lower bound upper bound first last occurrence')">All BS variants ↗</span>
+        </div>
+      </div></div>
+      <div class="block-row"><div class="block-time">Slot 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Binary Search LeetCode 704 Java standard template')">Binary Search (LC 704)</span>
+          <span class="qc" onclick="sendPrompt('Find First and Last Position LeetCode 34 Java binary search')">First Last Position (LC 34)</span>
+          <span class="qc" onclick="sendPrompt('Search Insert Position LeetCode 35 Java')">Search Insert Pos (LC 35)</span>
+          <span class="qc" onclick="sendPrompt('Guess Number Higher Lower LeetCode 374 Java binary search')">Guess Number (LC 374)</span>
+          <span class="qc" onclick="sendPrompt('Sqrt x LeetCode 69 Java binary search integer sqrt')">Sqrt(x) (LC 69)</span>
+          <span class="qc" onclick="sendPrompt('Count occurrences in sorted array Java binary search')">Count occurrences</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num amber">Day 16</span>
+      <span class="day-title">Binary Search on rotated arrays + 2D search</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">Concepts:</strong> Rotated sorted array — one half is always sorted. Determine which half is sorted, then decide which half to search. This is a classic interview question. Peak element — binary search on local max condition. 2D binary search: search in row-sorted, col-sorted matrix. Start from top-right corner, eliminate row or column each step.</div></div>
+      <div class="block-row"><div class="block-time">Slot 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Search in Rotated Sorted Array LeetCode 33 Java binary search')">Rotated Array (LC 33)</span>
+          <span class="qc" onclick="sendPrompt('Find Minimum in Rotated Sorted Array LeetCode 153 Java')">Min Rotated (LC 153)</span>
+          <span class="qc" onclick="sendPrompt('Search in Rotated Sorted Array II LeetCode 81 Java duplicates')">Rotated with Dups (LC 81)</span>
+          <span class="qc" onclick="sendPrompt('Find Peak Element LeetCode 162 Java binary search')">Peak Element (LC 162)</span>
+          <span class="qc" onclick="sendPrompt('Search a 2D Matrix LeetCode 74 Java binary search')">Search 2D Matrix (LC 74)</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num amber">Day 17</span>
+      <span class="day-title">Binary Search on Answer (the powerful pattern)</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">This pattern changes everything:</strong> Instead of searching in an array, you binary search on the ANSWER SPACE. Key insight: "Is it possible to achieve X with Y value?" If you can answer this yes/no check in O(n), then you can binary search for the optimal Y in O(n log n). Applies to: minimum/maximum feasibility problems, allocation problems, capacity problems. The template: define lo=min_possible, hi=max_possible, binary search on feasible(mid).</div></div>
+      <div class="block-row"><div class="block-time">Slot 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Koko Eating Bananas LeetCode 875 Java binary search on answer')">Koko Bananas (LC 875)</span>
+          <span class="qc" onclick="sendPrompt('Minimum Number of Days to Make m Bouquets LeetCode 1482 Java')">Min Days Bouquets (LC 1482)</span>
+          <span class="qc" onclick="sendPrompt('Capacity to Ship Packages Within D Days LeetCode 1011 Java binary search')">Ship Packages (LC 1011)</span>
+          <span class="qc" onclick="sendPrompt('Split Array Largest Sum LeetCode 410 Java binary search')">Split Array Sum (LC 410)</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num amber">Day 18</span>
+      <span class="day-title">Two Pointers — all patterns</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">3 two-pointer setups:</strong> (1) Opposite ends: start lo=0, hi=n-1, converge based on condition. Used for: pair sum in sorted array, palindrome check, container with water. (2) Same direction: slow and fast pointer. Used for: remove duplicates, move zeros, linked list cycle. (3) One array, one pointer per array: merge two sorted arrays. Key: two pointers only work when the array is SORTED or when you control what each pointer represents.</div></div>
+      <div class="block-row"><div class="block-time">Slot 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Two Sum II sorted array LeetCode 167 Java two pointer')">Two Sum II (LC 167)</span>
+          <span class="qc" onclick="sendPrompt('3Sum LeetCode 15 Java sort two pointer explanation')">3Sum (LC 15)</span>
+          <span class="qc" onclick="sendPrompt('4Sum LeetCode 18 Java two pointer')">4Sum (LC 18)</span>
+          <span class="qc" onclick="sendPrompt('Remove Duplicates from Sorted Array LeetCode 26 Java two pointer')">Remove Dups (LC 26)</span>
+          <span class="qc" onclick="sendPrompt('Trapping Rain Water LeetCode 42 Java two pointer optimal')">Trapping Rain (LC 42)</span>
+          <span class="qc" onclick="sendPrompt('Squares of Sorted Array LeetCode 977 Java two pointer')">Squares Sorted (LC 977)</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num amber">Day 19</span>
+      <span class="day-title">Sliding Window — fixed and variable size</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">Two sliding window templates:</strong>
+        Fixed size k: sum/max of every window of size k. Use one loop, add right, remove left when window = k.
+        Variable size: expand right pointer always, shrink left when condition violated. Track max/min window satisfying condition. Combined with HashMap for character-based constraints. Key: decide if fixed or variable, then what to track inside the window (sum, count, freq map).
+        <div class="qlist" style="margin-top:6px">
+          <span class="qc" onclick="sendPrompt('Sliding window template fixed and variable Java both with examples')">SW templates ↗</span>
+        </div>
+      </div></div>
+      <div class="block-row"><div class="block-time">Slot 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Maximum Average Subarray I LeetCode 643 Java fixed sliding window')">Max Average Sub (LC 643)</span>
+          <span class="qc" onclick="sendPrompt('Longest Substring Without Repeating Characters LeetCode 3 Java variable window')">Longest No Repeat (LC 3)</span>
+          <span class="qc" onclick="sendPrompt('Minimum Window Substring LeetCode 76 Java sliding window')">Min Window Sub (LC 76)</span>
+          <span class="qc" onclick="sendPrompt('Permutation in String LeetCode 567 Java sliding window freq array')">Permutation in String (LC 567)</span>
+          <span class="qc" onclick="sendPrompt('Longest Repeating Character Replacement LeetCode 424 Java sliding window')">Char Replacement (LC 424)</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num amber">Day 20 — Saturday</span>
+      <span class="day-title">Pattern marathon — BS + 2P + SW combined (7–8 hrs)</span>
+      <span class="day-hrs">7–8 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Morning · 3h<br><span class="tag t-code">code</span></div><div class="block-content"><strong style="font-size:12px">10 problems — 15 min timer each — write approach first:</strong>
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Maximum Number of Vowels in Substring LeetCode 1456 Java sliding window')">Max Vowels Sub (LC 1456)</span>
+          <span class="qc" onclick="sendPrompt('Fruit Into Baskets LeetCode 904 Java sliding window HashMap')">Fruit Baskets (LC 904)</span>
+          <span class="qc" onclick="sendPrompt('Subarrays with K Different Integers LeetCode 992 Java')">K Different Ints (LC 992)</span>
+          <span class="qc" onclick="sendPrompt('3Sum Closest LeetCode 16 Java two pointer')">3Sum Closest (LC 16)</span>
+          <span class="qc" onclick="sendPrompt('Valid Triangle Number LeetCode 611 Java sort two pointer')">Valid Triangle (LC 611)</span>
+        </div>
+      </div></div>
+      <div class="block-row"><div class="block-time">Afternoon · 2.5h<br><span class="tag t-mock">mock</span></div><div class="block-content">2 full mock sessions of 45 min each. Treat it like a real interview: state problem, discuss approach, code it, test with examples. Self-evaluate: did you get stuck? did you communicate clearly?</div></div>
+      <div class="block-row"><div class="block-time">Evening · 1.5h<br><span class="tag t-rev">review</span></div><div class="block-content">Update pattern notebook. For each pattern: trigger phrase (when to use), template, and 2 example problems.</div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num amber">Day 21 — Sunday</span>
+      <span class="day-title">GFG company sets + revision (5–6 hrs)</span>
+      <span class="day-hrs">5–6 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">All day<br><span class="tag t-rev">review</span></div><div class="block-content">Morning: solve 10 GFG questions tagged "Amazon" or "Microsoft" from Arrays and Strings sections. Afternoon: redo week 3's hardest problems. Evening: concept consolidation — write your own explanation of binary search on answer, sliding window variable template, and two pointer merge pattern.
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Amazon interview questions array string binary search Java with solutions')">Amazon array questions ↗</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 4 -->
+<div class="sec" id="week4">
+  <div class="week-band"><span class="wb-label">Week 4 — Sorting deep + Recursion intro + Full mocks (Days 22–28)</span><span class="wb-tag red">Completion sprint</span></div>
+
+  <div class="day-card open">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num red">Day 22</span>
+      <span class="day-title">Merge Sort + Quick Sort — implement from scratch</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1.5h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">Concepts:</strong> Merge sort — divide, conquer, merge. O(n log n) always, O(n) space. Stable. Use for: linked list sort, count inversions. Quick sort — partition, pivot, recursion. O(n log n) average, O(n²) worst, O(log n) space. Unstable. Quickselect: find kth element in O(n) average. 3-way quicksort for duplicates. Heap sort: O(n log n), O(1) space, unstable — know the idea. Counting sort / Radix sort for non-comparison based scenarios.</div></div>
+      <div class="block-row"><div class="block-time">Slot 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Implement Merge Sort Java from scratch with explanation')">Implement Merge Sort</span>
+          <span class="qc" onclick="sendPrompt('Implement Quick Sort Java from scratch with explanation')">Implement Quick Sort</span>
+          <span class="qc" onclick="sendPrompt('Count Inversions in array Java merge sort based')">Count Inversions</span>
+          <span class="qc" onclick="sendPrompt('Sort Array by Parity LeetCode 905 Java')">Sort by Parity (LC 905)</span>
+          <span class="qc" onclick="sendPrompt('Kth Largest Element Java quickselect algorithm')">Kth Largest Quickselect</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num red">Day 23</span>
+      <span class="day-title">Interval problems + sorting applications</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<span class="tag t-learn" style="margin-left:8px">learn</span></div><div class="block-content"><strong style="font-size:12px">Concepts:</strong> Sort intervals by start time. Merge overlapping: if next.start &lt;= current.end, merge. Meeting rooms problem. Greedy with sorting: activity selection. Two events don't overlap if: end1 &lt;= start2 OR end2 &lt;= start1.</div></div>
+      <div class="block-row"><div class="block-time">Slots 2+3 · 2.5h<span class="tag t-code" style="margin-left:8px">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Merge Intervals LeetCode 56 Java sort and merge')">Merge Intervals (LC 56)</span>
+          <span class="qc" onclick="sendPrompt('Insert Interval LeetCode 57 Java')">Insert Interval (LC 57)</span>
+          <span class="qc" onclick="sendPrompt('Non-overlapping Intervals LeetCode 435 Java greedy sort')">Non-overlapping (LC 435)</span>
+          <span class="qc" onclick="sendPrompt('Meeting Rooms LeetCode 252 Java sort intervals')">Meeting Rooms (LC 252)</span>
+          <span class="qc" onclick="sendPrompt('Meeting Rooms II LeetCode 253 Java min heap')">Meeting Rooms II (LC 253)</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num red">Day 24</span>
+      <span class="day-title">Recursion foundations — the mental model</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1.5h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">The 3-step recursion framework:</strong> (1) Base case — smallest input you can directly answer. (2) What do I do with current element/index. (3) Trust that recursion solves the smaller version — don't trace the whole call stack. This is the key mental shift. Call stack visualization. Stack overflow: when does it happen. Tail recursion. Memoization preview: recursion + cache = DP (we'll do full DP in Phase 2 context, but get the idea now). Write every recursion with a recurrence relation.</div></div>
+      <div class="block-row"><div class="block-time">Slots 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Fibonacci recursion vs memoization vs iterative Java comparison')">Fibonacci all 3 ways</span>
+          <span class="qc" onclick="sendPrompt('Power of x recursion Java fast exponentiation')">Power(x, n) fast exp</span>
+          <span class="qc" onclick="sendPrompt('Reverse string using recursion Java')">Reverse via recursion</span>
+          <span class="qc" onclick="sendPrompt('Binary search recursive Java implementation')">Recursive binary search</span>
+          <span class="qc" onclick="sendPrompt('Generate all subsets of array Java recursion explanation')">Generate all subsets</span>
+          <span class="qc" onclick="sendPrompt('Tower of Hanoi Java recursion explanation')">Tower of Hanoi</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num red">Day 25</span>
+      <span class="day-title">Greedy basics + problem-solving strategies</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Slot 1 · 1h<br><span class="tag t-learn">learn</span></div><div class="block-content"><strong style="font-size:12px">Concepts:</strong> Greedy: make locally optimal choice at each step, hope for global optimum. Only works when greedy choice property + optimal substructure hold. How to think greedy: sort by some criterion, then pick. Classic examples: activity selection, coin change (specific denominations), gas station, jump game. Greedy vs DP: greedy is faster but doesn't always work — you must prove the greedy choice is safe.</div></div>
+      <div class="block-row"><div class="block-time">Slots 2+3 · 2.5h<br><span class="tag t-code">code</span></div><div class="block-content">
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Jump Game LeetCode 55 Java greedy explanation')">Jump Game (LC 55)</span>
+          <span class="qc" onclick="sendPrompt('Jump Game II LeetCode 45 Java greedy minimum jumps')">Jump Game II (LC 45)</span>
+          <span class="qc" onclick="sendPrompt('Gas Station LeetCode 134 Java greedy')">Gas Station (LC 134)</span>
+          <span class="qc" onclick="sendPrompt('Assign Cookies LeetCode 455 Java greedy sort')">Assign Cookies (LC 455)</span>
+          <span class="qc" onclick="sendPrompt('Best Time Buy Sell Stock II LeetCode 122 Java greedy')">Buy/Sell Stock II (LC 122)</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num red">Day 26</span>
+      <span class="day-title">Mixed hard problems + edge cases</span>
+      <span class="day-hrs">4–5 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">All day<br><span class="tag t-code">code</span></div><div class="block-content"><strong style="font-size:12px">These problems combine multiple Phase 1 patterns — solve each in &lt;30 min:</strong>
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Longest Mountain in Array LeetCode 845 Java')">Longest Mountain (LC 845)</span>
+          <span class="qc" onclick="sendPrompt('Maximum Points You Can Obtain from Cards LeetCode 1423 Java sliding window')">Max Card Points (LC 1423)</span>
+          <span class="qc" onclick="sendPrompt('Minimum Size Subarray Sum LeetCode 209 Java sliding window')">Min Size Sub Sum (LC 209)</span>
+          <span class="qc" onclick="sendPrompt('Sort Characters By Frequency LeetCode 451 Java HashMap sort')">Sort by Frequency (LC 451)</span>
+          <span class="qc" onclick="sendPrompt('Asteroid Collision LeetCode 735 Java stack simulation')">Asteroid Collision (LC 735)</span>
+          <span class="qc" onclick="sendPrompt('Daily Temperatures LeetCode 739 Java monotonic stack')">Daily Temperatures (LC 739)</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num red">Day 27 — Saturday</span>
+      <span class="day-title">FULL MOCK DAY — Placement simulation (7–8 hrs)</span>
+      <span class="day-hrs">7–8 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Morning · 3h<br><span class="tag t-mock">mock 1</span></div><div class="block-content">TCS NQT simulation: 3 coding questions, 90 min total. Question types: 1 easy array/string, 1 medium (binary search or two pointer), 1 medium-hard. Use GFG TCS previous year papers. After mock: review ALL questions including ones you got right.</div></div>
+      <div class="block-row"><div class="block-time">Afternoon · 2.5h<br><span class="tag t-mock">mock 2</span></div><div class="block-content">Infosys/Wipro simulation: 2 coding questions, 60 min. Focus on correctness and edge cases. After: review and note every pattern you used.</div></div>
+      <div class="block-row"><div class="block-time">Evening · 2h<br><span class="tag t-rev">review</span></div><div class="block-content">Honest self-assessment: what patterns were you slow on? what did you get wrong? what edge cases did you miss? Write an action list for Day 28.</div></div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="tog(this)">
+      <span class="day-num red">Day 28 — Sunday</span>
+      <span class="day-title">Final revision + Phase 2 prep checklist (5–6 hrs)</span>
+      <span class="day-hrs">5–6 hrs</span>
+      <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+    </div>
+    <div class="day-body">
+      <div class="block-row"><div class="block-time">Morning · 2h<br><span class="tag t-rev">review</span></div><div class="block-content">Go through your full pattern notebook. Redo 1 problem from each major topic (8 problems total, 15 min each). If you can solve them cleanly, you're ready for Phase 2.</div></div>
+      <div class="block-row"><div class="block-time">Afternoon · 2h<br><span class="tag t-code">code</span></div><div class="block-content">Fix action list items from Day 27 mock. Drill the 2–3 patterns you were weakest on.
+        <div class="qlist">
+          <span class="qc" onclick="sendPrompt('Phase 1 done — what should I start in Phase 2 Linked Lists and Stacks Java prep')">Start Phase 2 planning ↗</span>
+        </div>
+      </div></div>
+      <div class="block-row"><div class="block-time">Evening · 1.5h<br><span class="tag t-rev">review</span></div><div class="block-content">Build final Phase 1 cheat sheet (1 page per major topic). These become your revision material the night before any placement drive.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONCEPTS -->
+<div class="sec" id="concepts">
+  <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem">Every concept you need to own completely by end of Phase 1. Tap any question to get a full Java explanation.</div>
+
+  <div class="concept-block">
+    <div class="cb-head"><div class="cb-icon"><i class="ti ti-brackets-contain" aria-hidden="true"></i></div><div class="cb-name">Arrays — complete concept list</div><span class="cb-badge green">Week 1</span></div>
+    <div class="cb-body">Memory layout, 0-indexing, 2D arrays, time/space complexity, int[] vs ArrayList, Arrays class methods, for-each vs index loop, in-place modification, prefix sum, difference array, Kadane's algorithm, Dutch National Flag, cyclic sort, index-as-hashmap trick, rotation using reversal, next permutation.</div>
+    <div class="cb-qs"><div class="cb-qs-label">Practice questions</div>
+      <div class="qlist">
+        <span class="qc" onclick="sendPrompt('Two Sum Java HashMap O(n)')">Two Sum</span>
+        <span class="qc" onclick="sendPrompt('Maximum Subarray Kadane Java')">Max Subarray</span>
+        <span class="qc" onclick="sendPrompt('Product Except Self Java')">Product Except Self</span>
+        <span class="qc" onclick="sendPrompt('Rotate Array Java reversal')">Rotate Array</span>
+        <span class="qc" onclick="sendPrompt('Sort Colors Dutch National Flag Java')">Sort Colors</span>
+        <span class="qc" onclick="sendPrompt('Trapping Rain Water Java two pointer')">Trapping Rain</span>
+        <span class="qc" onclick="sendPrompt('3Sum Java sort two pointer')">3Sum</span>
+        <span class="qc" onclick="sendPrompt('Next Permutation Java algorithm')">Next Permutation</span>
+        <span class="qc" onclick="sendPrompt('Find Missing Number Java XOR')">Missing Number</span>
+        <span class="qc" onclick="sendPrompt('Container Most Water Java')">Container Water</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept-block">
+    <div class="cb-head"><div class="cb-icon"><i class="ti ti-letter-s" aria-hidden="true"></i></div><div class="cb-name">Strings — complete concept list</div><span class="cb-badge blue">Week 2</span></div>
+    <div class="cb-body">Immutability, String pool, StringBuilder for building, charAt/toCharArray, char arithmetic, frequency array int[26], sorting to find anagram, palindrome check, two-pointer on string, sliding window on string, KMP concept, Rabin-Karp concept, StringBuilder reverse, split/join patterns.</div>
+    <div class="cb-qs"><div class="cb-qs-label">Practice questions</div>
+      <div class="qlist">
+        <span class="qc" onclick="sendPrompt('Valid Palindrome Java')">Valid Palindrome</span>
+        <span class="qc" onclick="sendPrompt('Group Anagrams Java HashMap')">Group Anagrams</span>
+        <span class="qc" onclick="sendPrompt('Longest Palindromic Substring Java')">Longest Palindrome Sub</span>
+        <span class="qc" onclick="sendPrompt('Minimum Window Substring Java')">Min Window Sub</span>
+        <span class="qc" onclick="sendPrompt('Longest Substring No Repeat Java')">Longest No Repeat</span>
+        <span class="qc" onclick="sendPrompt('Valid Anagram Java')">Valid Anagram</span>
+        <span class="qc" onclick="sendPrompt('Reverse Words String Java')">Reverse Words</span>
+        <span class="qc" onclick="sendPrompt('Find All Anagrams String Java')">All Anagrams</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept-block">
+    <div class="cb-head"><div class="cb-icon"><i class="ti ti-stack-2" aria-hidden="true"></i></div><div class="cb-name">HashMap & HashSet — complete concept list</div><span class="cb-badge blue">Week 2</span></div>
+    <div class="cb-body">Hash function, bucket collision, O(1) avg / O(n) worst, load factor, getOrDefault, putIfAbsent, computeIfAbsent, entrySet iteration, LinkedHashMap insertion order, TreeMap sorted keys O(log n), HashSet for membership, when to use each type, frequency counting pattern, complement lookup pattern.</div>
+    <div class="cb-qs"><div class="cb-qs-label">Practice questions</div>
+      <div class="qlist">
+        <span class="qc" onclick="sendPrompt('Top K Frequent Elements Java HashMap bucket sort')">Top K Frequent</span>
+        <span class="qc" onclick="sendPrompt('Subarray Sum Equals K Java prefix HashMap')">Subarray Sum K</span>
+        <span class="qc" onclick="sendPrompt('Longest Consecutive Sequence Java HashSet')">Consecutive Sequence</span>
+        <span class="qc" onclick="sendPrompt('Word Frequency Count Java HashMap')">Word Frequency</span>
+        <span class="qc" onclick="sendPrompt('Four Sum Count LeetCode 454 Java HashMap')">4Sum Count (LC 454)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept-block">
+    <div class="cb-head"><div class="cb-icon"><i class="ti ti-binary" aria-hidden="true"></i></div><div class="cb-name">Binary Search — complete concept list</div><span class="cb-badge amber">Week 3</span></div>
+    <div class="cb-body">lo/hi/mid template, lo+(hi-lo)/2 overflow fix, lo&lt;=hi vs lo&lt;hi conditions, lower bound (first occurrence), upper bound (last occurrence), search rotated array, peak element, 2D matrix search, binary search on answer space — feasibility check pattern, O(n log n) total with O(n) check.</div>
+    <div class="cb-qs"><div class="cb-qs-label">Practice questions</div>
+      <div class="qlist">
+        <span class="qc" onclick="sendPrompt('First Last Position Sorted Array Java')">First/Last Position</span>
+        <span class="qc" onclick="sendPrompt('Search Rotated Sorted Array Java')">Rotated Array</span>
+        <span class="qc" onclick="sendPrompt('Koko Eating Bananas Java binary search answer')">Koko Bananas</span>
+        <span class="qc" onclick="sendPrompt('Find Peak Element Java')">Peak Element</span>
+        <span class="qc" onclick="sendPrompt('Capacity Ship Packages Java binary search')">Ship Packages</span>
+        <span class="qc" onclick="sendPrompt('Search 2D Matrix Java')">2D Matrix</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept-block">
+    <div class="cb-head"><div class="cb-icon"><i class="ti ti-arrows-left-right" aria-hidden="true"></i></div><div class="cb-name">Two Pointers + Sliding Window</div><span class="cb-badge amber">Week 3</span></div>
+    <div class="cb-body">Opposite-end two pointer (sorted array), same-direction two pointer (slow/fast), fixed-size sliding window, variable-size sliding window with expand/shrink, combining window with HashMap for character constraints, window invariant — what property to maintain, when sliding window beats brute force.</div>
+    <div class="cb-qs"><div class="cb-qs-label">Practice questions</div>
+      <div class="qlist">
+        <span class="qc" onclick="sendPrompt('Longest Subarray with Ones after Deletion LeetCode 1493 Java')">Ones After Deletion (LC 1493)</span>
+        <span class="qc" onclick="sendPrompt('Max Consecutive Ones III LeetCode 1004 Java sliding window')">Max Ones III (LC 1004)</span>
+        <span class="qc" onclick="sendPrompt('Fruit Into Baskets LeetCode 904 Java')">Fruit Baskets</span>
+        <span class="qc" onclick="sendPrompt('Permutation in String LeetCode 567 Java')">Permutation in String</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept-block">
+    <div class="cb-head"><div class="cb-icon"><i class="ti ti-sort-ascending" aria-hidden="true"></i></div><div class="cb-name">Sorting + Recursion</div><span class="cb-badge red">Week 4</span></div>
+    <div class="cb-body">Bubble/selection/insertion O(n²), merge sort O(n log n) stable, quicksort O(n log n) avg unstable, heap sort O(n log n) O(1) space, Java Arrays.sort / Collections.sort, custom Comparator, counting sort / radix sort, sorting for greedy, recursion base case + trust principle, memoization preview.</div>
+    <div class="cb-qs"><div class="cb-qs-label">Practice questions</div>
+      <div class="qlist">
+        <span class="qc" onclick="sendPrompt('Implement Merge Sort Java')">Merge Sort code</span>
+        <span class="qc" onclick="sendPrompt('Count Inversions merge sort Java')">Count Inversions</span>
+        <span class="qc" onclick="sendPrompt('Merge Intervals Java sort')">Merge Intervals</span>
+        <span class="qc" onclick="sendPrompt('Jump Game Java greedy')">Jump Game</span>
+        <span class="qc" onclick="sendPrompt('Generate Subsets recursion Java')">Subsets via recursion</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRACKER -->
+<div class="sec" id="tracker">
+  <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:1rem">Use this as a self-check. After each day, ask: can I solve a new problem of this type without hints in under 20 minutes?</div>
+  <div id="tracker-list"></div>
+  <div style="margin-top:1rem;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <button onclick="resetTracker()" style="font-size:12px;padding:6px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;background:transparent;color:var(--color-text-secondary)">Reset all</button>
+    <span id="progress-text" style="font-size:12px;color:var(--color-text-secondary)"></span>
+  </div>
+</div>
+
+</div>
+
+<script>
+const topics = [
+  {name:'Big-O and complexity analysis',week:'W1',day:1},
+  {name:'Java array methods and types',week:'W1',day:1},
+  {name:'Prefix sum pattern',week:'W1',day:2},
+  {name:'Kadane\'s algorithm',week:'W1',day:3},
+  {name:'Dutch National Flag / 3-way partition',week:'W1',day:4},
+  {name:'Basic sorts (bubble, selection, insertion)',week:'W1',day:4},
+  {name:'Array index tricks and cyclic sort',week:'W1',day:5},
+  {name:'Rotation via reversal',week:'W1',day:5},
+  {name:'Java String internals and methods',week:'W2',day:8},
+  {name:'Character frequency array int[26]',week:'W2',day:9},
+  {name:'Anagram and palindrome patterns',week:'W2',day:9},
+  {name:'HashMap internals and Java APIs',week:'W2',day:10},
+  {name:'HashSet membership pattern',week:'W2',day:10},
+  {name:'TreeMap / LinkedHashMap use cases',week:'W2',day:10},
+  {name:'Sliding window on strings',week:'W2',day:11},
+  {name:'KMP concept (not full memorization)',week:'W2',day:12},
+  {name:'Binary search universal template',week:'W3',day:15},
+  {name:'Binary search on rotated arrays',week:'W3',day:16},
+  {name:'Binary search on answer space',week:'W3',day:17},
+  {name:'Two pointer — opposite ends',week:'W3',day:18},
+  {name:'Two pointer — same direction (slow/fast)',week:'W3',day:18},
+  {name:'Fixed-size sliding window',week:'W3',day:19},
+  {name:'Variable-size sliding window',week:'W3',day:19},
+  {name:'Merge sort — code from scratch',week:'W4',day:22},
+  {name:'Quick sort — code from scratch',week:'W4',day:22},
+  {name:'Interval merge / overlap problems',week:'W4',day:23},
+  {name:'Recursion mental model (3-step)',week:'W4',day:24},
+  {name:'Greedy choice property',week:'W4',day:25},
+  {name:'Mock interview simulation',week:'W4',day:27},
+];
+
+function loadTracker(){
+  const saved = JSON.parse(localStorage.getItem('p1tracker')||'{}');
+  const list = document.getElementById('tracker-list');
+  if(!list) return;
+  let html = '';
+  let weeks = {};
+  topics.forEach((t,i) => {
+    if(!weeks[t.week]) weeks[t.week] = [];
+    weeks[t.week].push({...t, i});
+  });
+  for(const w in weeks){
+    html += `<div style="font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin:12px 0 6px">${w}</div>`;
+    weeks[w].forEach(t => {
+      const checked = saved[t.i] ? 'checked' : '';
+      html += `<label style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary);cursor:pointer;font-size:13px">
+        <input type="checkbox" ${checked} onchange="toggleTopic(${t.i}, this.checked)" style="width:15px;height:15px;flex-shrink:0;cursor:pointer">
+        <span style="flex:1;${saved[t.i]?'color:var(--color-text-secondary);text-decoration:line-through':''}">${t.name}</span>
+        <span style="font-size:11px;color:var(--color-text-tertiary)">Day ${t.day}</span>
+      </label>`;
+    });
+  }
+  list.innerHTML = html;
+  updateProgress(saved);
+}
+function toggleTopic(i, val){
+  const saved = JSON.parse(localStorage.getItem('p1tracker')||'{}');
+  if(val) saved[i]=true; else delete saved[i];
+  localStorage.setItem('p1tracker', JSON.stringify(saved));
+  loadTracker();
+}
+function resetTracker(){
+  localStorage.removeItem('p1tracker');
+  loadTracker();
+}
+function updateProgress(saved){
+  const done = Object.keys(saved).length;
+  const total = topics.length;
+  const pct = Math.round(done/total*100);
+  const el = document.getElementById('progress-text');
+  if(el) el.textContent = `${done} / ${total} concepts done (${pct}%)`;
+}
+function show(id, btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+  if(id==='tracker') loadTracker();
+}
+function tog(hd){
+  hd.parentElement.classList.toggle('open');
+}
+loadTracker();
+</script>
